@@ -3,3 +3,6 @@
 
 # Ignora a pasta env (se existir)
 env/
+
+# Ignora node_modules
+node_modules/
