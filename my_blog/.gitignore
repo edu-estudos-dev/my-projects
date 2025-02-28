@@ -1,2 +1,5 @@
+# Ignora arquivos .env
 .env
-node_modules/
+
+# Ignora a pasta env (se existir)
+env/
