@@ -1,30 +1,30 @@
 <style>
-    .body-content p {
-        margin: 0;
-        padding: 0;
-    }
-
-    .table-articles {
+.table-articles {
         width: 80%;
         margin: auto;
     }
 
     .btn {
-        width: 90px;
+        width: 100px;
     }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
 </style>
 
 <%- include('../partials/head', { title: 'Tabela de Artigos' }) %>
 <%- include('../partials/nav-bar') %>
 
 <div class=" table-articles mt-5" style="padding-top: 70px;">
-    <h3 class="text-center bg-light text-secpndary py-2">Artigos</h3>
+    <h3 class="text-center bg-light text-secondary py-2">Artigos Escritos</h3>
     <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Título</th>
-                <th scope="col">Slug</th>
                 <th scope="col">Corpo</th>
                 <th scope="col">Categoria</th>
                 <th class="text-center" scope="col">Ações</th>
@@ -33,22 +33,19 @@
         <tbody>
             <% articles.forEach(article=> { %>
                 <tr>
-                    <td class="py-1">
+                    <td class="py-1  mb-0">
                         <%= article.id %>
                     </td>
-                    <td class="py-1">
+                    <td class="py-1  mb-0">
                         <%= article.title %>
                     </td>
-                    <td class="py-1">
-                        <%= article.slug %>
-                    </td>
-                    <td class="py-1">
+                    <td class="py-1  mb-0">
                         <%= article.shortBody %>
                     </td>
-                    <td class="py-1">
+                    <td class="py-1  mb-0">
                         <%= article.category.title %>
                     </td>
-                    <td class="py-1">
+                    <td class="py-1 ">
                         <a href="/articles/<%= encodeURIComponent(article.slug) %>"
                             class="btn btn-secondary py-0">Vizualizar</a>
                         <a href="/articles/formEditArticle/<%= article.id %>"

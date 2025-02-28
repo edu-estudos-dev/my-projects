@@ -1,104 +1,367 @@
+<style>
+    /* Estilos Globais */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 16.67%;
+        background: #fff;
+        border-right: 1px solid #e9ecef;
+        height: auto;
+        z-index: 900;
+    }
+
+    .container {
+        position: relative;
+        z-index: 800;
+    }
+
+    .sidebar .sticky-top {
+        top: 80px;
+    }
+
+    .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+        padding-block: 0.7rem;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        background-color: #1a5cd9;
+    }
+
+    .recent{
+        margin-bottom: 3rem !important;
+    }
+
+    .nav-link,
+    .sidebar-link {
+        color: #333;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover,
+    .sidebar-link:hover {
+        color: #2575fc;
+        background: #f8f9fa;
+        text-decoration: none;
+    }
+
+    .sidebar-link {
+        color: #2575fc;
+        font-size: 0.95rem;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    /* Cards */
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: #fff;
+        width: 100%;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff !important;
+        border-bottom: none;
+        padding: 1rem;
+        flex-shrink: 0;
+    }
+
+    .card-title {
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        padding: 1rem;
+        overflow: hidden;
+    }
+
+    .card-text {
+        margin-bottom: 0;
+    }
+
+    .card-footer {
+        padding: 0.75rem 1rem;
+        flex-shrink: 0;
+    }
+
+    .card-footer a {
+        color: #2575fc;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .card-footer a:hover {
+        text-decoration: underline;
+        color: #1a5cd9;
+    }
+
+    /* Cards em Destaque */
+    .featured-card .card-header {
+        background: linear-gradient(135deg, #ff416c, #ff4b2b); 
+    }
+
+    /* Botão customizado nos cards em destaque */
+    .custom-btn {
+        color: #2575fc !important;
+        border-color: #2575fc !important;
+        transition: all 0.3s ease;
+    }
+
+    .custom-btn:hover {
+        background: #2575fc !important;
+        color: #fff !important;
+        border-color: #2575fc;
+        text-decoration: none;
+    }
+
+    /* Paginação */
+    .pagination .page-link {
+        border: none;
+        color: #2575fc;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination .page-item.active .page-link {
+        background: #2575fc;
+        color: #fff;
+    }
+
+    .pagination .page-link:hover {
+        background: #e9ecef;
+        color: #1a5cd9;
+    }
+
+    /* Botão Voltar ao Topo */
+    #back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: none;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    #back-to-top:hover {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    }
+
+    /* Truncar texto */
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    @media (max-width: 767.98px) {
+        .sidebar {
+            display: none;
+        }
+
+        .container {
+            margin-left: 15px !important;
+        }
+    }
+</style>
+
 <%- include('partials/head', { title: 'Página Inicial' }) %>
 <%- include('partials/nav-bar') %>
 
-<div class="container mt-5" style="padding-top: 70px;">
-    <h1 class="display-4 mb-4">Bem-vindo ao Blog Dev!</h1>
-    <hr>
-    <p class="lead mb-5">Estes são os artigos já cadastrados:</p>
+<!-- Barra Lateral fora do container -->
+<aside class="sidebar my-5">
+    <div class="sticky-top py-4">
+        <h4 class="sidebar-title">Navegação</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Início</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/categories/table">Categorias</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/latest">Mais Recentes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/popular">Mais Populares</a>
+            </li>
+        </ul>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
-        <% articles.forEach(article => { %>
-            <div class="col">
-                <div class="card h-100 shadow-sm clickable-card" data-href="/articles/<%= encodeURIComponent(article.slug) %>">
-                    <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">
-                            <%= article.title %>
-                        </h5>
+        <h5 class="sidebar-title mt-5">Artigos Recentes</h5>
+        <ul class="list-unstyled mb-1">
+            <% articles.slice(0, 5).forEach(article=> { %>
+                <li class="mb-2">
+                    <a href="/articles/<%= encodeURIComponent(article.slug) %>" class="sidebar-link ">
+                        <%= article.title %>
+                    </a>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</aside>
+
+<!-- Conteúdo Principal dentro do container -->
+<div class="container mt-5" style="padding-top: 70px; margin-left: calc(16.67% + 15px);">
+    <main class="main-content">
+        <h1 class="display-4 mb-4">Bem-vindo ao Blog Dev!</h1>
+        <hr>
+    
+        <p class="lead mb-5">Bem-vindo ao Blog Dev, seu espaço para aprender, compartilhar e se inspirar com artigos sobre tecnologia, programação e inovação!</p>
+
+        <!-- Seção de Artigos em Destaque -->
+        <section class="featured-articles mb-5">
+            <h2 class="display-6 mb-4">Artigos em Destaque</h2>
+            <div class="row g-3">
+                <% const featuredArticles = articles.slice(0, 3); %>
+                <% featuredArticles.forEach(article => { %>
+                    <div class="col-md-4">
+                        <div class="card featured-card h-100 shadow-sm clickable-card" data-href="/articles/<%= encodeURIComponent(article.slug) %>">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0"><%= article.title %></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-text truncate-text"><%- article.body %></div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 mb-2">
+                                <a href="/articles/<%= encodeURIComponent(article.slug) %>" class="btn btn-outline-primary btn-sm custom-btn">Ler Artigo</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="card-text truncate-text"><%- article.body %></div>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0 ms-auto">
-                         <a href="/articles/<%= encodeURIComponent(article.slug) %>">ler artigo</a>
+                <% }) %>
+            </div>
+        </section>
+
+        <hr>
+        <br>
+
+        <!-- Todos os Artigos -->
+        <h2 class="display-6 mb-4">Explore todos os artigos recentes</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            <% articles.forEach(article=> { %>
+                <div class="col">
+                    <div class="card h-100 shadow-sm clickable-card"
+                        data-href="/articles/<%= encodeURIComponent(article.slug) %>">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">
+                                <%= article.title %>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text truncate-text"><%- article.body %></div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 mb-1">
+                            <a href="/articles/<%= encodeURIComponent(article.slug) %>">ler artigo</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <% }) %>
-
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="Navegação de artigos">
-                        <ul class="pagination justify-content-center mt-3">
-                            <% if (hasPrev) { %>
-                                <li class="page-item">
-                                    <a class="page-link mx-1" href="/?page=<%= page - 1 %>">
-                                        <i class="bi bi-arrow-left me-1"></i> Anterior
-                                    </a>
-                                </li>
-                            <% } else { %>
-                                <li class="page-item disabled">
-                                    <span class="page-link">
-                                        <i class="bi bi-arrow-left me-1"></i> Anterior
-                                    </span>
-                                </li>
-                            <% } %>
-                            <% if (hasNext) { %>
-                                <li class="page-item">
-                                    <a class="page-link mx-1" href="/?page=<%= page + 1 %>">
-                                        Próximo <i class="bi bi-arrow-right ms-1"></i>
-                                    </a>
-                                </li>
-                            <% } else { %>
-                                <li class="page-item disabled">
-                                    <span class="page-link">
-                                        Próximo <i class="bi bi-arrow-right ms-1"></i>
-                                    </span>
-                                </li>
-                            <% } %>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            <% }) %>
         </div>
-    </div> <br>
+
+        <!-- Paginação -->
+        <nav aria-label="Navegação de artigos" class="mt-5">
+            <ul class="pagination justify-content-center">
+                <% if (hasPrev) { %>
+                    <li class="page-item">
+                        <a class="page-link mx-1" href="/?page=<%= page - 1 %>">
+                            <i class="bi bi-arrow-left me-1"></i> Anterior
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="page-item disabled">
+                        <span class="page-link">
+                            <i class="bi bi-arrow-left me-1"></i> Anterior
+                        </span>
+                    </li>
+                <% } %>
+                <% if (hasNext) { %>
+                    <li class="page-item">
+                        <a class="page-link mx-1" href="/?page=<%= page + 1 %>">
+                            Próximo <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="page-item disabled">
+                        <span class="page-link">
+                            Próximo <i class="bi bi-arrow-right ms-1"></i>
+                        </span>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+    </main>
 </div>
 
 <%- include('partials/footer') %>
 <%- include('partials/rodape') %>
 
-<style>
-    .truncate-text {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.4em;
-        height: 4.2em;
-    }
-
-    .card {
-        min-width: 200px;
-        transition: transform 0.2s;
-        cursor: pointer;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
-</style>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.clickable-card');
-        cards.forEach(card => {
-            card.addEventListener('click', function(event) {
-                // Verifica se o clique foi em um elemento interativo (como botão ou link)
-                if (!event.target.closest('a, button')) {
-                    window.location.href = this.getAttribute('data-href');
-                }
+    document.addEventListener('DOMContentLoaded', function () {
+        const backToTopButton = document.createElement('button');
+        backToTopButton.id = 'back-to-top';
+        backToTopButton.innerHTML = '↑';
+        document.body.appendChild(backToTopButton);
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            backToTopButton.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.clickable-card').forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = card.dataset.href;
             });
         });
     });
-</script>
+</script>"

@@ -1,48 +1,196 @@
+<style>
+    /* Estilos Globais */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 16.67%;
+        background: #fff;
+        border-right: 1px solid #e9ecef;
+        height: auto;
+        z-index: 900;
+    }
+
+    .container {
+        position: relative;
+        z-index: 800;
+    }
+
+    .sidebar .sticky-top {
+        top: 80px;
+    }
+
+    .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+        padding-block: 0.7rem;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        background-color: #1a5cd9;
+    }
+
+    .recent{
+        margin-bottom: 3rem !important;
+    }
+
+    .nav-link,
+    .sidebar-link {
+        color: #333;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover,
+    .sidebar-link:hover {
+        color: #2575fc;
+        background: #f8f9fa;
+        text-decoration: none;
+    }
+
+    .sidebar-link {
+        color: #2575fc;
+        font-size: 0.95rem;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    /* Cards */
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: #fff;
+        width: 100%;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff !important;
+        border-bottom: none;
+        padding: 1rem;
+        flex-shrink: 0;
+    }
+
+    .card-title {
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .card-body {
+        flex: 1 1 auto;
+        padding: 1rem;
+        overflow: hidden;
+    }
+
+    .card-text {
+        margin-bottom: 0;
+    }
+
+    .card-footer {
+        padding: 0.75rem 1rem;
+        flex-shrink: 0;
+    }
+
+    .card-footer a {
+        color: #2575fc;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .card-footer a:hover {
+        text-decoration: underline;
+        color: #1a5cd9;
+    }
+
+
+
+    @media (max-width: 767.98px) {
+        .sidebar {
+            display: none;
+        }
+
+        .container {
+            margin-left: 15px !important;
+        }
+    }
+</style>
 
 <%- include('../partials/head', { title: 'Dados da pesquisa' }) %>
 <%- include('../partials/nav-bar') %>
 
-  <div class="container" style="margin-block: 7rem;">
-    <h2>Resultados da Pesquisa para "<%= searchTerm %>"</h2>
-    
-    <% if (message) { %>
-      <p><%= message %></p>
-    <% } else if (articles.length > 0) { %>
-      <div class="row">
-        <% articles.forEach(article => { %>
-          <div class="col-md-4 mb-3">
-            <div class="card mt-3">
-              <div class="card-body">
-                <h5 class="card-title"><%= article.title %></h5>
-                <p class="card-text"><%= article.body.substring(0, 100) %>...</p>
-                <p class="card-text"><small class="text-muted">Categoria: <%= article.category ? article.category.title : 'Sem categoria' %></small></p>
-                <a href="/articles/<%= article.slug %>" class="btn btn-primary">Ler mais</a>
-              </div>
+
+<!-- Conteúdo Principal dentro do container -->
+<div class="container mt-5" style="padding-top: 70px; margin-left: calc(16.67% + 15px);">
+    <main class="main-content">
+        <h2 class="display-6 mb-4">Resultados da Pesquisa para "<%= searchTerm %>"</h2>
+        
+        <% if (message) { %>
+            <p class="lead"><%= message %></p>
+        <% } else if (articles.length > 0) { %>
+            <div class="row g-3">
+                <% articles.forEach(article => { %>
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm clickable-card" data-href="/articles/<%= encodeURIComponent(article.slug) %>">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0"><%= article.title %></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-text truncate-text"><%- article.body %></div>
+                                <p class="card-text"><small class="text-muted">Categoria: <%= article.category ? article.category.title : 'Sem categoria' %></small></p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0">
+                                <a href="/articles/<%= encodeURIComponent(article.slug) %>">ler artigo</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
             </div>
-          </div>
-        <% }) %>
-      </div>
 
-      <!-- Paginação -->
-      <nav aria-label="Paginação" class="mt-5">
-        <ul class="pagination justify-content-center ">
-          <% if (hasPrev) { %>
-            <li class="page-item">
-              <a class="page-link" href="/articles/search?q=<%= searchTerm %>&page=<%= page - 1 %>">Anterior</a>
-            </li>
-          <% } %>
-          <li class="page-item disabled">
-            <span class="page-link">Página <%= page %> de <%= totalPages %></span>
-          </li>
-          <% if (hasNext) { %>
-            <li class="page-item">
-              <a class="page-link" href="/articles/search?q=<%= searchTerm %>&page=<%= page + 1 %>">Próxima</a>
-            </li>
-          <% } %>
-        </ul>
-      </nav>
-    <% } %>
-  </div>
+            <!-- Paginação -->
+            <nav aria-label="Paginação" class="mt-5">
+                <ul class="pagination justify-content-center">
+                  <li class="">
+                    <span class="">Página <%= page %> de <%= totalPages %></span>
+                </li>                 
+                </ul>
+            </nav>
+        <% } %>
 
-  <%- include('../partials/footer') %>
-  <%- include('../partials/rodape') %>
+      </main>
+</div>
+
+<%- include('../partials/footer') %>
+<%- include('../partials/rodape') %>
