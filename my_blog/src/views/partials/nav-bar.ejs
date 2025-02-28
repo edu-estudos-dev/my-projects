@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+    <div class="container w-100 px-0 py-1">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <i class="fas fa-blog me-2"></i>
+            Blog Dev
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">
+                        <i class="fas fa-home me-1"></i>
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-tags me-1"></i>
+                        Categorias
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/categories/new">Criar Categoria</a></li>
+                        <li><a class="dropdown-item" href="/categories/table">Categoriaas Criadas</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-file-alt me-1"></i>
+                        Artigos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/articles/new">Criar Artigos</a></li>
+                        <li><a class="dropdown-item" href="/articles/table">Artigos Criados</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <form class="d-flex mb-0" role="search" action="/articles/search" method="GET">
+                <input class="form-control me-2" type="search" name="q" placeholder="Pesquisar posts..." required>
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <!-- Altere o action para a rota correta -->
+            <form class="mb-0" action="/users/logout" method="POST">
+                <button type="submit" class="btn btn-link text-dark">Sair</button>
+            </form>
+        </div>
+    </div>
+</nav>

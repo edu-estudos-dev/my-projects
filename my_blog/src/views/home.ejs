@@ -1,0 +1,104 @@
+<%- include('partials/head', { title: 'Página Inicial' }) %>
+<%- include('partials/nav-bar') %>
+
+<div class="container mt-5" style="padding-top: 70px;">
+    <h1 class="display-4 mb-4">Bem-vindo ao Blog Dev!</h1>
+    <hr>
+    <p class="lead mb-5">Estes são os artigos já cadastrados:</p>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+        <% articles.forEach(article => { %>
+            <div class="col">
+                <div class="card h-100 shadow-sm clickable-card" data-href="/articles/<%= encodeURIComponent(article.slug) %>">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">
+                            <%= article.title %>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text truncate-text"><%- article.body %></div>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0 ms-auto">
+                         <a href="/articles/<%= encodeURIComponent(article.slug) %>">ler artigo</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Navegação de artigos">
+                        <ul class="pagination justify-content-center mt-3">
+                            <% if (hasPrev) { %>
+                                <li class="page-item">
+                                    <a class="page-link mx-1" href="/?page=<%= page - 1 %>">
+                                        <i class="bi bi-arrow-left me-1"></i> Anterior
+                                    </a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        <i class="bi bi-arrow-left me-1"></i> Anterior
+                                    </span>
+                                </li>
+                            <% } %>
+                            <% if (hasNext) { %>
+                                <li class="page-item">
+                                    <a class="page-link mx-1" href="/?page=<%= page + 1 %>">
+                                        Próximo <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <span class="page-link">
+                                        Próximo <i class="bi bi-arrow-right ms-1"></i>
+                                    </span>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div> <br>
+</div>
+
+<%- include('partials/footer') %>
+<%- include('partials/rodape') %>
+
+<style>
+    .truncate-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4em;
+        height: 4.2em;
+    }
+
+    .card {
+        min-width: 200px;
+        transition: transform 0.2s;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.clickable-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function(event) {
+                // Verifica se o clique foi em um elemento interativo (como botão ou link)
+                if (!event.target.closest('a, button')) {
+                    window.location.href = this.getAttribute('data-href');
+                }
+            });
+        });
+    });
+</script>

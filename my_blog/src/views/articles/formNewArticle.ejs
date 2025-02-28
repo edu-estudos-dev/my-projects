@@ -1,0 +1,42 @@
+<%- include('../partials/head', { title: 'Formulário de Criação de artigos' }) %>
+<%- include('../partials/nav-bar') %>
+
+<div class="container mt-5 w-50" style="padding-top: 70px;"><br>
+    <form action="/articles/save" method="post">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2>Criação de Artigos</h2>
+                <button type="submit" class="btn btn-success">Criar Artigo</button>
+            </div>
+            <div class="card-body">
+                <input class="form-control" placeholder="Título do Artigo." type="text" name="title" required>
+                <br>
+                <textarea placeholder="Escreva aqui seu artigo." class="form-control" name="body" id="body"
+                    rows="16"></textarea>
+            </div>
+        </div> <br>
+        
+        <label class="mb-2" for="category">Categorias</label>
+        <select name="category" id="category" class="form-select mb-3">
+            <% categories.forEach(category=> { %>
+                <option value="<%= category.id %>">
+                    <%= category.title %>
+                </option>
+            <% }) %>
+        </select>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>
+<%- include('../partials/rodape') %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        language: 'pt_BR',
+        selector: "#body",
+        plugins: [
+            'advlist autolink link image lists print preview hr searchreplace fullscreen insertdatetime media save table paste emoticons'
+        ]
+    })
+</script>

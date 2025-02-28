@@ -1,0 +1,63 @@
+<style>
+    .input-custom:focus {
+        outline: 0;
+        box-shadow: none !important;
+    }
+</style>
+
+<%- include('../partials/head', { title: 'Registrar novo usuário' }) %>
+
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+    <div class="border p-4 py-5 rounded shadow-lg caixa-externa">
+        <h1 class="text-center display-6 fw-bold mb-4 text-success">Registrar</h1>
+        <hr>
+
+        <% if (erro !== null) { %>
+            <div class="alert alert-danger"><%= erro %></div>
+        <% } %>
+        
+        <% if (success !== null) { %>
+            <div class="alert alert-success"><%= success %></div>
+
+            <script>
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 2000);
+            </script>
+
+        <% } else { %>
+
+            <form action="/users/register" method="POST">
+                <div class="form-group mb-3">
+                    <label for="userName" class="form-label">Usuário</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" class="form-control input-custom" id="userName" name="userName" placeholder="Entre com o usuário" required>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control input-custom" id="password" name="password" placeholder="Sua Senha" required>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success mt-4 w-100">Registrar</button>
+                </div>
+            </form>
+        <% } %>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+<script>
+    window.onload = function () {
+        document.getElementById('userName').focus();
+    };
+
+    document.getElementById('userName').addEventListener('input', function () {
+        this.value = this.value.toLowerCase();
+    });
+</script>

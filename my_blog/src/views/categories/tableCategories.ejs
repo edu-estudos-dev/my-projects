@@ -1,0 +1,90 @@
+<%- include('../partials/head', { title: 'Tabela de categorias' }) %>
+<%- include('../partials/nav-bar') %>
+
+<style>
+    .table-categories {
+        width: 80%;
+        margin: auto;
+    }
+
+    .btn {
+        width: 90px;
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+    }
+
+    .table th:nth-child(1),
+    .table td:nth-child(1) {
+        width: 10%;
+    }
+
+    .table th:nth-child(2),
+    .table td:nth-child(2) {
+        width: 35%;
+    }
+
+    .table th:nth-child(3),
+    .table td:nth-child(3) {
+        width: 35%;
+    }
+
+    .table th:nth-child(4),
+    .table td:nth-child(4) {
+        width: 20%;
+        text-align: center;
+    }
+</style>
+
+<div class="table-categories mt-5" style="padding-top: 70px;">
+    <h3 class="text-center bg-light text-secondary text-white py-2">Categorias</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Título</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% categories.forEach(category=> { %>
+                <tr>
+                    <td class="py-1">
+                        <%= category.id %>
+                    </td>
+                    <td class="py-1">
+                        <%= category.title %>
+                    </td>
+                    <td class="py-1">
+                        <%= category.slug %>
+                    </td>
+                    <td class="py-1">
+                        <a href="/categories/formEditCategory/<%= category.id %>"
+                            class="btn btn-warning py-0">Editar</a>
+                        <form action="/categories/<%= category.id %>?_method=DELETE" method="POST"
+                            style="display: inline;" onsubmit="return confirmDelete(event, this)">
+                            <button type="submit" class="btn btn-danger py-0">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>
+<%- include('../partials/rodape') %>
+
+<script>
+    function confirmDelete(event, form) {
+        event.preventDefault();
+        const isConfirmed = confirm("Tem certeza que deseja deletar essa categoria?");
+        if (isConfirmed) {
+            form.submit();
+            alert("Categoria excluída com Sucesso.");
+        }
+    }
+</script>

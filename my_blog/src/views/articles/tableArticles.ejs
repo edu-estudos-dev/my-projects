@@ -1,0 +1,79 @@
+<style>
+    .body-content p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .table-articles {
+        width: 80%;
+        margin: auto;
+    }
+
+    .btn {
+        width: 90px;
+    }
+</style>
+
+<%- include('../partials/head', { title: 'Tabela de Artigos' }) %>
+<%- include('../partials/nav-bar') %>
+
+<div class=" table-articles mt-5" style="padding-top: 70px;">
+    <h3 class="text-center bg-light text-secpndary py-2">Artigos</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Título</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Corpo</th>
+                <th scope="col">Categoria</th>
+                <th class="text-center" scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% articles.forEach(article=> { %>
+                <tr>
+                    <td class="py-1">
+                        <%= article.id %>
+                    </td>
+                    <td class="py-1">
+                        <%= article.title %>
+                    </td>
+                    <td class="py-1">
+                        <%= article.slug %>
+                    </td>
+                    <td class="py-1">
+                        <%= article.shortBody %>
+                    </td>
+                    <td class="py-1">
+                        <%= article.category.title %>
+                    </td>
+                    <td class="py-1">
+                        <a href="/articles/<%= encodeURIComponent(article.slug) %>"
+                            class="btn btn-secondary py-0">Vizualizar</a>
+                        <a href="/articles/formEditArticle/<%= article.id %>"
+                            class="btn btn-warning py-0">Editar</a>
+                        <form action="/articles/<%= article.id %>?_method=DELETE" method="POST"
+                            style="display: inline;" onsubmit="return confirmDelete(event, this)">
+                            <button type="submit" class="btn btn-danger py-0">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>
+<%- include('../partials/rodape') %>
+
+<script>
+    function confirmDelete(event, form) {
+        event.preventDefault();
+        const isConfirmed = confirm("Tem certeza que deseja deletar esse artigo?");
+        if (isConfirmed) {
+            form.submit();
+            alert("Artigo excluido com Sucesso.");
+        }
+    }
+</script>

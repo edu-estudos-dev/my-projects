@@ -1,0 +1,31 @@
+{
+  "name": "my_blog",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Building a blog project in Node.js with MVC architecture",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "kill-port 8080 && nodemon --legacy-watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eduardo Praciano",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "mysql2": "^3.12.0",
+    "sequelize": "^6.37.5",
+    "slugify": "^1.6.6",
+    "striptags": "^3.2.0",
+    "truncate-html": "^1.2.0"
+  },
+  "devDependencies": {
+    "kill-port": "^2.0.1",
+    "nodemon": "^3.1.9"
+  }
+}
