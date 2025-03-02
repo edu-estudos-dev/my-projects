@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<%- include('./partials/head', { title: 'Criar Nova Tarefa' }) %>
+<%- include('./partials/header') %>
+<%- include('./partials/messages') %>
+
+<body class="d-flex flex-column min-vh-100">
+    <main class="container my-auto" style="max-width: 600px;">
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-body p-4 p-md-5">
+               
+                <div class="d-flex align-items-center mb-4">
+                    <div class="flex-grow-1">
+                        <h2 class="mb-0 fw-bold text-primary">
+                            <i class="fas fa-plus-circle me-2"></i>Nova Tarefa
+                        </h2>
+                    </div>
+                </div>
+
+                <form action="/save" method="post" novalidate class="needs-validation">
+                    <div class="form-floating mb-4">
+                        <input type="text" 
+                               class="form-control border-0 border-bottom rounded-0" 
+                               id="task" 
+                               name="task" 
+                               placeholder=" "
+                               required
+                               autofocus>
+                        <label for="task" class="text-muted">
+                            <i class="fas fa-tasks me-2"></i>Descrição da Tarefa
+                        </label>
+                        <div class="invalid-feedback">
+                            Por favor, insira uma descrição para a tarefa
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-3 d-md-flex justify-content-md-end mt-4">
+                        <a href="/table" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-arrow-left me-2"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save me-2"></i>Salvar Tarefa
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Validação de Formulário -->
+    <script>
+        (() => {
+            'use strict'
+            const form = document.querySelector('.needs-validation');
+            
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        })();
+    </script>
+</body>
+</html>

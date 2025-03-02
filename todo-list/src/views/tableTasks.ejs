@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<%- include('./partials/head', { title: 'Tabela de Tarefas' }) %>
+<%- include('./partials/header') %>
+
+<body class="mt-5">
+    <div class="container-fluid" style="max-width: 800px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Tarefas Cadastradas</h2>
+            <a href="/newTask" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Nova Tarefa
+            </a>
+        </div>
+
+        <div class="table-responsive rounded-3 shadow-sm">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="text-nowrap">ID</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <% if (tasks.length === 0) { %>
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">
+                                Nenhuma tarefa cadastrada
+                            </td>
+                        </tr>
+                    <% } %>
+
+                    <% tasks.forEach(task => { %>
+                        <tr>
+                            <td class="fw-bold text-muted">#<%= task.id %></td>
+                            <td class="text-truncate <%= task.completed ? 'text-decoration-line-through text-muted' : '' %>" style="max-width: 300px;">
+                                <%= task.task %>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge <%= task.completed ? 'bg-success p-2' : 'bg-warning p-2' %>">
+                                    <%= task.completed ? 'Concluída' : 'Pendente' %>
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <form action="/toggle/<%= task.id %>?_method=PATCH" method="POST">
+                                        <button type="submit" 
+                                                class="btn btn-sm <%= task.completed ? 'btn-outline-secondary' : 'btn-outline-success' %>" 
+                                                data-bs-toggle="tooltip" 
+                                                title="<%= task.completed ? 'Marcar como pendente' : 'Marcar como concluída' %>">
+                                            <i class="fas <%= task.completed ? 'fa-undo' : 'fa-check' %> btn-icon"></i>
+                                        </button>
+                                    </form>
+                                    
+                                    <a href="/edit/<%= task.id %>" class="btn btn-sm btn-outline-warning" 
+                                    data-bs-toggle="tooltip" 
+                                    title="Editar tarefa">
+                                        <i class="fas fa-pencil-alt btn-icon"></i>
+                                    </a>
+                                    
+                                    <form action="/delete/<%= task.id %>?_method=DELETE" method="POST" >
+                                        <button type="submit" 
+                                                class="btn btn-sm btn-outline-danger" 
+                                                data-bs-toggle="tooltip" 
+                                                title="Excluir tarefa">
+                                            <i class="fas fa-trash btn-icon"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tooltip Activation -->
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+</body>
+
+<style>
+    .btn-icon{
+        width: 20px !important;
+    }
+</style>
+</html>
